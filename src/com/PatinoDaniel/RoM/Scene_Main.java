@@ -37,31 +37,32 @@ public class Scene_Main extends Main{
 		scene.getStylesheets();
 		keepButton.setOnMouseClicked(e -> {
 			
-			String[] choices = {"a", "b", "c"};
-			Scene_Keep KeepScene = new Scene_Keep(choices, "file:Assets/download.png", "Keep", true, primaryStage, this.Title(primaryStage, player));
+			String[] choices = {"A.", "B.", "C.", "A.", "B.", "C."};
+			Scene_Keep KeepScene = new Scene_Keep(choices, "file:Assets/castle-1821609_960_720.jpg",
+					"Keep", true, primaryStage, this.Title(primaryStage, player));
 			Scene KeepSc = KeepScene.constructScene();
 			primaryStage.setScene(KeepSc);
-			primaryStage.show();
 			
 			System.out.println("KEEP");
 		});
 		
 		wildernessButton.setOnMouseClicked(e -> {
-			String[] choices = {"a", "b", "c"};
-			Scene_Town WildernessScene = new Scene_Town(choices, "file:Assets/download.png", "Wilderness", true, primaryStage, this.Title(primaryStage, player));
+			String[] choices = {"A.", "B.", "C."};
+			Scene_Town WildernessScene = new Scene_Town(choices, "file:Assets/download.png", "Wilderness",
+					true, primaryStage, this.Title(primaryStage, player));
 			Scene WildSc = WildernessScene.constructScene();
 			primaryStage.setScene(WildSc);
-			primaryStage.show();
 
 			System.out.println("WILDERNESS");
 		});
 		
 		townButton.setOnMouseClicked(e -> {
-			String[] choices = {"a", "b", "c"};
-			Scene_Town TownScene = new Scene_Town(choices, "file:Assets/download.png", "Town", true, primaryStage, this.Title(primaryStage, player));
+			String[] choices = {"A.", "B.", "C.", "A.", "B.", "C.", "A.", "B.", "C."};
+			Scene_Town TownScene = new Scene_Town(choices, "file:Assets/download.png", "Town",
+					true, primaryStage, this.Title(primaryStage, player));
 			Scene TownSc = TownScene.constructScene();
 			primaryStage.setScene(TownSc);
-			primaryStage.show();
+
 			System.out.println("TOWN");
 		});
 		

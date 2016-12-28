@@ -1,16 +1,18 @@
 package com.PatinoDaniel.RoM;
 
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 /**
@@ -23,7 +25,7 @@ import javafx.stage.Stage;
  *
  */
 
-public abstract class SceneManager {
+public abstract class SceneCreator {
 	
 	private boolean isBackButton;
 	private String[] choices;
@@ -50,7 +52,7 @@ public abstract class SceneManager {
 	 * @param primaryStage	A reference to the program Stage
 	 * @param backScene		A reference to which scene the back button will go
 	 */
-	public SceneManager(String[] choices, String bgPath, String title, boolean isBackButton, Stage primaryStage, Scene backScene){
+	public SceneCreator(String[] choices, String bgPath, String title, boolean isBackButton, Stage primaryStage, Scene backScene){
 		System.out.println("Constructing Scene");
 		this.choices = choices;
 		this.bgPath = bgPath;
@@ -60,11 +62,6 @@ public abstract class SceneManager {
 		this.backScene = backScene;
 	}
 	
-	public String toString(){
-		System.out.println("Scene: " + title + " contains " + choices.length + " choices.");
-		return "Scene: " + title + " contains " + choices.length + " choices.";
-	}
-	
 	/**
 	 * This function constructs the scene
 	 * 
@@ -72,6 +69,7 @@ public abstract class SceneManager {
 	 */
 	public Scene constructScene(){
 		masterStackPane = new StackPane();
+		
 		masterStackPane.getChildren().add(setImageBG());
 		masterStackPane.getChildren().add(setTextTitle());
 		
@@ -83,16 +81,43 @@ public abstract class SceneManager {
 			backButtonPane.setTranslateX(10);
 			backButtonPane.setTranslateY(GAME_HEIGHT - 35); 
 			masterStackPane.getChildren().add(backButtonPane);
+			choiceConstructor();
 			
 			backButton.setOnMouseClicked(e -> {
 				System.out.println("Pushed");
 				primaryStage.setScene(backScene);
-				primaryStage.show();
 			});
 		}
 		
 		constructedScene = new Scene(masterStackPane, GAME_WIDTH, GAME_HEIGHT);
 		return constructedScene;
+	}	
+	
+	private void choiceConstructor(){
+		
+		VBox choices = new VBox();
+		choices.setPadding(new Insets(10, 10, 10, 10));
+		choices.setSpacing(10);
+		
+		Button[] buttons = new Button[this.choices.length];
+		
+		for(int i = 0; i < buttons.length; i++){
+			buttons[i] = new Button();
+			buttons[i].setText(this.choices[i]);
+			buttons[i].setMaxSize(GAME_WIDTH / 3, GAME_HEIGHT / 3);
+			choices.getChildren().add(buttons[i]);
+		}
+		
+		System.out.println(choices.getBoundsInLocal());
+		System.out.println(choices.getBoundsInParent());
+		System.out.println(choices.getLayoutBounds());
+		
+		choices.setAlignment(Pos.CENTER);
+		choices.setMaxSize(GAME_WIDTH / 3, GAME_HEIGHT / 3);
+		
+		//Scene scene = new Scene(choices);
+		//primaryStage.setScene(scene);
+		masterStackPane.getChildren().add(choices);
 	}
 	
 	/**
@@ -112,12 +137,24 @@ public abstract class SceneManager {
 	 * 
 	 * @return	Formatted Text object to be added to the scene
 	 */
-	private Text setTextTitle(){
+	private StackPane setTextTitle(){
+		
+		StackPane textTitle = new StackPane();
+		textTitle.setAlignment(Pos.TOP_CENTER);
+		textTitle.setTranslateY(10);
+		
 		Text title = new Text();
 		title.setText(this.title);
 		title.setFill(Color.BLACK);
 		title.setFont(Font.font("Mistral", FontWeight.BOLD, 32));
-		title.setTextAlignment(TextAlignment.CENTER);
-		return title;
+		
+		textTitle.getChildren().add(title);
+		
+		return textTitle;
+	}
+	
+	public String toString(){
+		System.out.println("Scene: " + title + " contains " + choices.length + " choices.");
+		return "Scene: " + title + " contains " + choices.length + " choices.";
 	}
 }

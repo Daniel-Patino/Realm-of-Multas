@@ -5,7 +5,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public class Scene_Town extends SceneManager{
+public class Scene_Town extends SceneCreator{
 	
 	public Scene_Town(String[] choices, String bgPath, String title, boolean isBackButton, Stage primaryStage, Scene backScene) {
 		super(choices, bgPath, title, isBackButton, primaryStage, backScene);

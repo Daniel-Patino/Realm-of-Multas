@@ -3,12 +3,6 @@ package com.PatinoDaniel.RoM;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
-import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 
 public class Main extends Application {
 	
@@ -24,7 +18,8 @@ public class Main extends Application {
 			Scene OpenSc = OpenScene.Title(primaryStage);
 			
 			primaryStage.setTitle(GAME_TITLE);
-			primaryStage.setScene(OpenSc);			
+			primaryStage.setScene(OpenSc);	
+			primaryStage.setResizable(true);
 			primaryStage.show();
 			
 			OpenSc.setOnMouseClicked(e -> {
@@ -44,18 +39,5 @@ public class Main extends Application {
 	
 	public static void main(String[] args) {
 		launch(args);
-	}
-	
-	public Scene TrashScene(){
-		StackPane root = new StackPane();
-		Text FILLER = new Text();
-		FILLER.setText("FILLER");
-		FILLER.setFill(Color.BLACK);
-		FILLER.setFont(Font.font("Mistral", FontWeight.BOLD, 32));
-		FILLER.setTextAlignment(TextAlignment.CENTER);
-		root.getChildren().add(FILLER);
-		
-		Scene scene = new Scene(root, 760, 640);
-		return scene;
 	}
 }
