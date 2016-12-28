@@ -24,4 +24,16 @@ public class Scene_Town extends SceneCreator{
 		
 		return withMore;
 	}
+
+	@Override
+	public Scene customButtons() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Scene customEvents() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

@@ -9,4 +9,16 @@ public class Scene_Keep extends SceneCreator {
 		super(choices, bgPath, title, isBackButton, primaryStage, backScene);
 		// TODO Auto-generated constructor stub
 	}
+
+	@Override
+	public Scene customButtons() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Scene customEvents() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

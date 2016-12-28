@@ -13,8 +13,6 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		try {
 			Scene_Title OpenScene = new Scene_Title();
-			Scene_Main MainScene = new Scene_Main();
-			
 			Scene OpenSc = OpenScene.Title(primaryStage);
 			
 			primaryStage.setTitle(GAME_TITLE);
@@ -25,8 +23,10 @@ public class Main extends Application {
 			OpenSc.setOnMouseClicked(e -> {
 				System.out.println("Pressed");
 				Player newPlayer = new Player(100, 100, 100);
-				
-				Scene MainSc = MainScene.Title(primaryStage, newPlayer);
+
+				Scene_Main MainScene = new Scene_Main(null, "file:Assets/download.png", "Main", false, primaryStage, null);
+				Scene MainSc = MainScene.constructScene();
+				MainSc = MainScene.customEvents(primaryStage, newPlayer);
 				
 				primaryStage.setScene(MainSc);
 				primaryStage.show();			

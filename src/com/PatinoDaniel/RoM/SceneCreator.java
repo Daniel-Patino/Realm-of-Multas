@@ -1,6 +1,5 @@
 package com.PatinoDaniel.RoM;
 
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -16,7 +15,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 /**
- * An abstract method to set down the framework of a scene. The items necessary for a scene to function
+ * A class to set down the framework of a scene. The items necessary for a scene to function
  * include choices(Optional), a background image, the title of the scene, a back button(Optional), a
  * reference to the primaryStage and a reference to the previous scene. Two protected but useful objects
  * include the Scene constructedScene and the StackPane masterStackPane.
@@ -24,7 +23,6 @@ import javafx.stage.Stage;
  * @author Dsp02_000
  *
  */
-
 public abstract class SceneCreator {
 	
 	private boolean isBackButton;
@@ -39,6 +37,9 @@ public abstract class SceneCreator {
 	
 	public static final int GAME_WIDTH = 760;
 	public static final int GAME_HEIGHT = 640;
+	
+	public abstract Scene customButtons();
+	public abstract Scene customEvents();
 	
 	/**
 	 * The master constructor, other constructors could be made with less parameters but for general purposes
@@ -73,6 +74,10 @@ public abstract class SceneCreator {
 		masterStackPane.getChildren().add(setImageBG());
 		masterStackPane.getChildren().add(setTextTitle());
 		
+		if(choices != null){
+			choiceConstructor();
+		}
+		
 		if(isBackButton){
 			Pane backButtonPane = new Pane();
 			Button backButton = new Button();
@@ -81,7 +86,6 @@ public abstract class SceneCreator {
 			backButtonPane.setTranslateX(10);
 			backButtonPane.setTranslateY(GAME_HEIGHT - 35); 
 			masterStackPane.getChildren().add(backButtonPane);
-			choiceConstructor();
 			
 			backButton.setOnMouseClicked(e -> {
 				System.out.println("Pushed");
@@ -91,26 +95,46 @@ public abstract class SceneCreator {
 		
 		constructedScene = new Scene(masterStackPane, GAME_WIDTH, GAME_HEIGHT);
 		return constructedScene;
-	}	
+	}
 	
+	/**
+	 * Slightly simplifies the process of button creation, practically self explanatory
+	 * 
+	 * @param title
+	 * @param width
+	 * @param height
+	 * @param xCoord
+	 * @param yCoord
+	 * @return
+	 */
+	public Button buttonCreator(String title, int width, int height, double xCoord, double yCoord){
+		
+		Button customButton = new Button(title);
+		customButton.setPrefSize(width, height);
+		customButton.setTranslateX(xCoord);
+		customButton.setTranslateY(yCoord);
+		
+		return customButton;
+	}
+	
+	/**
+	 * This function centers and formats our choices into a single column of buttons
+	 */
 	private void choiceConstructor(){
 		
+		char[] alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
+		
 		VBox choices = new VBox();
-		choices.setPadding(new Insets(10, 10, 10, 10));
-		choices.setSpacing(10);
+		choices.setSpacing(5);
 		
 		Button[] buttons = new Button[this.choices.length];
 		
 		for(int i = 0; i < buttons.length; i++){
 			buttons[i] = new Button();
-			buttons[i].setText(this.choices[i]);
+			buttons[i].setText(alphabet[i] +". " + this.choices[i]);
 			buttons[i].setMaxSize(GAME_WIDTH / 3, GAME_HEIGHT / 3);
 			choices.getChildren().add(buttons[i]);
 		}
-		
-		System.out.println(choices.getBoundsInLocal());
-		System.out.println(choices.getBoundsInParent());
-		System.out.println(choices.getLayoutBounds());
 		
 		choices.setAlignment(Pos.CENTER);
 		choices.setMaxSize(GAME_WIDTH / 3, GAME_HEIGHT / 3);
@@ -151,6 +175,11 @@ public abstract class SceneCreator {
 		textTitle.getChildren().add(title);
 		
 		return textTitle;
+	}
+	
+	public void openScene(Stage primaryStage, Scene sceneToOpen){
+		primaryStage.setScene(sceneToOpen);
+		primaryStage.show();
 	}
 	
 	public String toString(){
