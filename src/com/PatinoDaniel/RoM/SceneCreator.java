@@ -26,6 +26,7 @@ import javafx.stage.Stage;
 public abstract class SceneCreator {
 	
 	private boolean isBackButton;
+	private boolean isUserInter;
 	private String[] choices;
 	private String bgPath;
 	private String title;
@@ -34,26 +35,28 @@ public abstract class SceneCreator {
 	
 	protected Scene constructedScene;
 	protected StackPane masterStackPane;
+	protected GUI userGUI;
 	
 	public static final int GAME_WIDTH = 760;
 	public static final int GAME_HEIGHT = 640;
 	
-	public abstract Scene customButtons();
-	public abstract Scene customEvents();
+	public abstract Scene customButtons(Stage primaryStage, Player player);
+	public abstract Scene customEvents(Stage primaryStage, Player player);
 	
 	/**
 	 * The master constructor, other constructors could be made with less parameters but for general purposes
 	 * this one is appropriate. This sets the scene and feeds all of the class variables the necessary data
 	 * so that all the methods can function without parameters 
 	 * 
-	 * @param choices		Several choices or no choices
-	 * @param bgPath		A path to the background image
-	 * @param title			The title to display
-	 * @param isBackButton	Whether there is a back button or not
-	 * @param primaryStage	A reference to the program Stage
-	 * @param backScene		A reference to which scene the back button will go
+	 * @param choices			Several choices or no choices
+	 * @param bgPath			A path to the background image
+	 * @param title				The title to display
+	 * @param isBackButton		Whether there is a back button or not
+	 * @param primaryStage		A reference to the program Stage
+	 * @param backScene			A reference to which scene the back button will go
+	 * @param isUserInterface	Whether this scene has a user interface
 	 */
-	public SceneCreator(String[] choices, String bgPath, String title, boolean isBackButton, Stage primaryStage, Scene backScene){
+	public SceneCreator(String[] choices, String bgPath, String title, boolean isBackButton, Stage primaryStage, Scene backScene, boolean isUserInter){
 		System.out.println("Constructing Scene");
 		this.choices = choices;
 		this.bgPath = bgPath;
@@ -61,17 +64,26 @@ public abstract class SceneCreator {
 		this.isBackButton = isBackButton;
 		this.primaryStage = primaryStage;
 		this.backScene = backScene;
+		this.isUserInter = isUserInter;
 	}
 	
 	/**
-	 * This function constructs the scene
+	 * This function constructs the scene and begins modifying the masterStackPane, the masterStackPane is organized
+	 * in the following order; 0. BG, 1. TITLE, 2. VBox Choices, 3. BackButton
 	 * 
 	 * @return	A constructed Scene with minimal functionality
 	 */
-	public Scene constructScene(){
-		masterStackPane = new StackPane();
+	public Scene constructScene(Player player){
 		
+		masterStackPane = new StackPane();
 		masterStackPane.getChildren().add(setImageBG());
+		
+		if(isUserInter){
+			userGUI = new GUI();
+			StackPane user = userGUI.userInterface(player);
+			masterStackPane.getChildren().add(user);
+		}
+		
 		masterStackPane.getChildren().add(setTextTitle());
 		
 		if(choices != null){
@@ -94,11 +106,12 @@ public abstract class SceneCreator {
 		}
 		
 		constructedScene = new Scene(masterStackPane, GAME_WIDTH, GAME_HEIGHT);
+		System.out.println("Scene Constructed");
 		return constructedScene;
 	}
-	
+
 	/**
-	 * Slightly simplifies the process of button creation, practically self explanatory
+	 * Slightly simplifies the process of button creation for Panes, practically self explanatory
 	 * 
 	 * @param title
 	 * @param width
@@ -138,9 +151,7 @@ public abstract class SceneCreator {
 		
 		choices.setAlignment(Pos.CENTER);
 		choices.setMaxSize(GAME_WIDTH / 3, GAME_HEIGHT / 3);
-		
-		//Scene scene = new Scene(choices);
-		//primaryStage.setScene(scene);
+
 		masterStackPane.getChildren().add(choices);
 	}
 	

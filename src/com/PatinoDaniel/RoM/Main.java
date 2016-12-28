@@ -22,11 +22,11 @@ public class Main extends Application {
 			
 			OpenSc.setOnMouseClicked(e -> {
 				System.out.println("Pressed");
-				Player newPlayer = new Player(100, 100, 100);
+				Player player = new Player(100, 100);
 
-				Scene_Main MainScene = new Scene_Main(null, "file:Assets/download.png", "Main", false, primaryStage, null);
-				Scene MainSc = MainScene.constructScene();
-				MainSc = MainScene.customEvents(primaryStage, newPlayer);
+				Scene_Main MainScene = new Scene_Main(null, "file:Assets/download.png", "Main", false, primaryStage, null, true);
+				Scene MainSc = MainScene.constructScene(player);
+				MainSc = MainScene.customEvents(primaryStage, player);
 				
 				primaryStage.setScene(MainSc);
 				primaryStage.show();			

@@ -7,12 +7,8 @@ package com.PatinoDaniel.RoM;
  */
 public class Player {
 	
-	public int health = 1;
-	public int gold = 0;
-	public int attack = 1;
-	public int defense = 1;
-	public int slaves = 0;
-	public int prestige = 0;
+	private int health = 1;
+	private int gold = 0;
 	
 	/**
 	 * Define the players health, gold. The difficulty must be a number between x - y and multiplies
@@ -22,11 +18,9 @@ public class Player {
 	 * @param startingGold
 	 * @param difficulty
 	 */
-	public Player(int startingHealth, int startingGold, int difficulty){
+	public Player(int startingHealth, int startingGold){
 		this.health = startingHealth;
 		this.gold = startingGold;
-		this.attack = this.attack * difficulty;
-		this.defense = this.defense * difficulty;
 	}
 	
 	public void setHealth(int health){
